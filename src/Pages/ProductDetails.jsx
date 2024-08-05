@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import NavBar from '../Components/Navbar/NavBar';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Loading } from '../Components/Loading';
 import FooterCardDisplay from '../Components/Card/FooterCardDisplay';
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetails = () => {
   const params = useParams();
@@ -42,15 +44,21 @@ const ProductDetails = () => {
     if (found) {
       found.quantity = found.quantity + 1;
       localStorage.setItem("cartItemsKey", JSON.stringify(cart));
+      toast.success(`${singleProduct.title} ${found.quantity} is added sucessfully!`)
     } else {
       cart.push({ ...singleProduct, quantity: 1 });
       localStorage.setItem("cartItemsKey", JSON.stringify(cart));
+      toast.success(`${singleProduct.title}  is added sucessfully!`)
+
     }
   };
 
+
+
   return (
     <>
-      <NavBar />
+      <ToastContainer />
+      <NavBar  />
       <div className='flex justify-center py-[200px] px-2 w-full h-full '>
         <div className='w-full flex flex-wrap justify-center items-center gap-10 '>
           <div id="left" className='w-full h-[20rem] md:h-[40rem] lg:w-[40%]'>
@@ -85,9 +93,9 @@ const ProductDetails = () => {
               <p className='font-normal text-[20px] py-4'>{singleProduct.description}</p>
             </div>
             <div className='mt-10'>
-              <Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleAddCart}>
+              <div className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={handleAddCart} >
                 Add to cart
-              </Link>
+              </div>
             </div>
           </div>
         </div>
